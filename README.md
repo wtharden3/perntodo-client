@@ -68,3 +68,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Notes about this project
+
+This is a simple Todo app using React, bootstrap and connects to a Node server.
+Here is the node server repo: [server-practice](https://github.com/wtharden3/server-practice)
