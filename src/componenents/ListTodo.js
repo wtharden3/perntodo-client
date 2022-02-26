@@ -2,13 +2,21 @@ import React, { Fragment, useState, useEffect } from "react";
 
 const ListTodo = () => {
   const [todos, setTodos] = useState(["todo 1","todo 2","todo 3"]);
-  const [todoNum, setTodoNum] = useState(1);
-
-  // useEffect()
+  // useEffect() //used this for fetch
+  const fetchTodos = () => {
+    fetch("http://localhost:4040/alltodos", {
+        method: "GET",
+        headers: { "Content-Type": "application/json"},
+      })
+      .then(res => res.json())
+      .then(data => setTodos(data))
+    }
+    
+  useEffect(() => fetchTodos())
 
   return(
     <div className="mt-5">
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -18,12 +26,10 @@ const ListTodo = () => {
         <tbody>
           {todos.map((todo, index) => {
             return(
-              <Fragment>
-                <tr>
-                  <th scope="row">{index+1}</th>
-                  <td>{todo}</td>
-                </tr>
-              </Fragment>
+              <tr key={index}>
+                <th scope="row">{index+1}</th>
+                <td >{todo.description}</td>
+              </tr>
             )   
           })}
         </tbody>
