@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const ListTodo = () => {
   const [todos, setTodos] = useState(["todo 1","todo 2","todo 3"]);
@@ -11,8 +11,9 @@ const ListTodo = () => {
       .then(res => res.json())
       .then(data => setTodos(data))
     }
+    // convert the above function to trycatch using asyc await and storing await fetch in a function that should be returned...
     
-  useEffect(() => fetchTodos())
+  useEffect(() => fetchTodos(), [])
 
   return(
     <div className="mt-5">
