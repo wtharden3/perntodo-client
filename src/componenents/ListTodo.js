@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import EditTodo from "./EditTodo";
 
-const ListTodo = () => {
+const ListTodo = (props) => {
   const [todos, setTodos] = useState(["todo 1","todo 2","todo 3"]);
   const [deletedTodo, setDeletedTodo] = useState(0);
-  //I want to pass down InputTodos state so that I can make it a dependency
+  const [reRender, setReRender] = useState();
+  //********* I want to pass down InputTodos state so that I can make it a dependency
   //for the useEffect that is running fetch function as an argument.
   // useEffect() //used this for fetch
   const fetchTodos = () => {
@@ -61,7 +63,9 @@ const ListTodo = () => {
               <tr key={index}>
                 <th scope="row">{index+1}</th>
                 <td >{todo.description}</td>
-                <td><button type="button" className="btn btn-outline-info">Edit</button></td>
+                <td>
+                  <EditTodo todoId={todo.todo_id}/>
+                </td>
                 <td><button type="button" className="btn btn-danger" onClick={e => handleDelete(todo.todo_id)}>Delete</button></td>
               </tr>
             )   
