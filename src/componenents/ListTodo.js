@@ -3,8 +3,7 @@ import EditTodo from "./EditTodo";
 
 const ListTodo = (props) => {
   const [todos, setTodos] = useState(["todo 1","todo 2","todo 3"]);
-  const [deletedTodo, setDeletedTodo] = useState(0);
-  const [reRender, setReRender] = useState();
+  // const [deletedTodo, setDeletedTodo] = useState(0);
   //********* I want to pass down InputTodos state so that I can make it a dependency
   //for the useEffect that is running fetch function as an argument.
   // useEffect() //used this for fetch
@@ -16,6 +15,7 @@ const ListTodo = (props) => {
       .then(res => res.json())
       .then(data => {
         setTodos(data);
+        
       })
     }
     // converted the above function to trycatch using asyc await and storing await fetch in a function that should be returned...
@@ -40,11 +40,16 @@ const ListTodo = (props) => {
       headers: {"Content-Type": "application/json"}
     }).then(res => {
       console.log(res);
-      setDeletedTodo(id);
-    })
+      // setDeletedTodo(id);
+    }).then(
+      res => {
+        setTodos(todos.filter(todo => todo.todo_id !== id))
+      }
+    )
   }
 
-  useEffect(() => fetchTodos(), [deletedTodo]) //will only run when initialized not when state changes
+  useEffect(() => fetchTodos(), [])
+  // useEffect(() => fetchTodos(), [deletedTodo]) //will only run when initialized not when state changes
   // useEffect(() => fetchTodosAsync(), [])
   return(
     <div className="mt-5">
@@ -61,10 +66,12 @@ const ListTodo = (props) => {
           {todos.map((todo, index) => {
             return(
               <tr key={index}>
-                <th scope="row">{index+1}</th>
+                <th scope="row">{todo.todo_id}</th>
                 <td >{todo.description}</td>
                 <td>
-                  <EditTodo todoId={todo.todo_id}/>
+                  <EditTodo 
+                    todo={todo}
+                  />
                 </td>
                 <td><button type="button" className="btn btn-danger" onClick={e => handleDelete(todo.todo_id)}>Delete</button></td>
               </tr>

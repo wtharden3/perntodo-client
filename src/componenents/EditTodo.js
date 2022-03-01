@@ -1,71 +1,72 @@
 import React, {Fragment, useState} from "react";
 
-const EditTodo = (props) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [todoId, setTodoId] = useState(props.todoId);
+const EditTodo = ({todo}) => {
+  // const [todoId, setTodoId] = useState(todo.todo_id);
+  const [newDescription, setNewDescription] = useState(todo.description);
+  // const [openModal, setOpenModal] = useState(false)
 
-  const fetchFn = () => {
+  const fetchFn = async () => {
     try {
-      console.log(todoId);
-      const body = "something";
-      fetch(`http://localhost:4040/todo/${todoId}`, {
+      const body = newDescription;
+      console.log(body);
+      const response = await fetch(`http://localhost:4040/todo/${todo.todo_id}`, {
         method: "PUT",
-        headers: {"Content-type": "application/json"},
-        body: body
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          description: body
+        })
       });
+      console.log(response);
     } catch (err) {
       console.error(`[ERROR] ${err.message}`);
     }
   }
 
-  const handleEdit = () => {
-    console.log(true)
-    console.log(todoId);
-    setModalOpen(true);
+  const handleEdit = (e) => {
+    e.preventDefault();
+    // console.log(e);
+    console.log(todo.todo_id);
+    fetchFn();
   }
 
-  const handleClose = () => {
-    console.log(false);
-    setModalOpen(false);
-  }
-
-  const handleSave = () => {
-    fetchFn()
-  }
-
+  // console.log(`This is the todoId: ${todo.todo_id} and this is description: ${newDescription}`);
   return(
     <Fragment>
       <button 
         type="button" 
         className="btn btn-outline-info" 
         data-bs-toggle="modal" 
-        data-bs-target="#editModal"
-        onClick={e => handleEdit()}
+        data-bs-target={`#id${todo.todo_id}`}
       >
         Edit
       </button>
-      <div className="modal" id="editModal" tabindex="-1">
+      <div className="modal" id={`id${todo.todo_id}`} tabIndex="-1">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Modal title</h5>
+              <h5 className="modal-title">Edit Todo: {`This is the ${ todo.todo_id }!`}</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
-              <p>Modal body text goes here.</p>
+              <input 
+                type="text" 
+                className="form-control"
+                value={newDescription}
+                onChange={e => setNewDescription(e.currentTarget.value)}
+              />
             </div>
             <div className="modal-footer">
               <button 
                 type="button" 
                 className="btn btn-secondary" 
                 data-bs-dismiss="modal"
-                onClick={e => handleClose()}
               >
                 Close
               </button>
               <button 
                 type="button" 
                 className="btn btn-primary"
+                onClick={e => handleEdit(e)}
               >
                 Save changes
               </button>
