@@ -40,12 +40,23 @@ const EditTodo = ({todo}) => {
       >
         Edit
       </button>
-      <div className="modal" id={`id${todo.todo_id}`} tabIndex="-1">
+      <div 
+        className="modal" 
+        id={`id${todo.todo_id}`} 
+        tabIndex="-1"
+        onClick={e => setNewDescription(todo.description)}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Edit Todo: {`This is the ${ todo.todo_id }!`}</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button 
+                type="button" 
+                className="btn-close" 
+                data-bs-dismiss="modal" 
+                aria-label="Close"
+                onClick={e => setNewDescription(todo.description)}
+                ></button>
             </div>
             <div className="modal-body">
               <input 
@@ -60,6 +71,7 @@ const EditTodo = ({todo}) => {
                 type="button" 
                 className="btn btn-secondary" 
                 data-bs-dismiss="modal"
+                onClick={e => setNewDescription(todo.description)}
               >
                 Close
               </button>
